@@ -1,0 +1,21 @@
+Critérios de avaliação
+
+Definições:
+
+- P1: Primeira prova.
+
+- P2: Segunda prova.
+
+- PSUB: Prova substitutiva. Todos podem fazer. Todo o conteúdo do semestre.
+
+- T1: Primeiro Trabalho realizado no decorrer do semestre.
+
+- T2: Segundo Trabalho realizado no decorrer do semestre.
+
+- T3: Nota decorrente do projeto interdisciplinar.
+
+MP (Média de provas): MAX((P1 + P2) / 2, (P1 + PSUB) / 2, (P2 + PSUB) / 2, PSUB)
+
+MT (Média de trabalhos):  0,3 * T1 + 0,3 * T2 + 0,4 * T3
+
+MF (Média final): 0,6 * MP + 0,4 * MT
