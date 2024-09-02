@@ -1,0 +1,56 @@
+#titulo {
+  color: green;
+  text-align: center;
+}
+
+p#descricao {
+  color: blue;
+}
+
+p.promocao {
+  text-align: center;
+  background-color: lightgreen;
+}
+
+h1.promocao {
+  color: yellow;
+}
+
+.nova {
+  color: white;
+}
+
+p.final-pagina#rodape {
+  background-color: lightgray;
+  text-align: center;
+}
+
+.curso,
+.novo-curso {
+  background-color: aliceblue;
+}
+
+.novo-curso {
+  color: red;
+}
+
+.curso,
+.novo-curso,
+#contato {
+  padding: 12px;
+  border: 1px solid lightgrey;
+}
+
+article p {
+  padding: 12px;
+  background-color: lightgray;
+}
+
+#principal p.promocao {
+  padding: 12px;
+  background-color: aliceblue;
+}
+
+main > article section > p.coordenadores {
+    font-weight: bold;
+}

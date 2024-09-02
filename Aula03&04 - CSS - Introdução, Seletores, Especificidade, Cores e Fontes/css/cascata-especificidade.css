@@ -1,0 +1,9 @@
+p { /* possui um peso = 1*/
+  color: red;
+}
+.descricao { /* classe possui peso = 10 */
+  color: green;
+}
+#titulo{ /* id possui peso = 100 */
+    color:blue;
+}

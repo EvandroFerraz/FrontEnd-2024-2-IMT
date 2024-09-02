@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cascata e Especificidade</title>
+    <style>
+      /* 0-1-1 = 11 de peso de prioridade*/
+      .principal article {
+        background-color: lightblue;
+      }
+      /* 0-0-2 = 2 de peso de prioridade */
+      main, article {
+        background-color: beige;
+      }
+    </style>
+    <link rel="stylesheet" href="css/cascata-especificidade.css" />
+  </head>
+  <body>
+    <main class="principal">
+      <article>
+        <p id="titulo" class="descricao">Algoritmo de especificidade do CSS</p>
+      </article>
+    </main>
+  </body>
+</html>
