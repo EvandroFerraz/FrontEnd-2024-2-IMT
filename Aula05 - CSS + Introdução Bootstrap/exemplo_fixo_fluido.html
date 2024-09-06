@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Layout Fixo/Fluído </title>
+    <style>
+        body{
+            margin: 0px;
+            font-size: 32px;
+        }
+        .engenharia, .farmacia, .matematica{
+            /* display: inline-block; */
+            border: solid 1px black;
+            padding: 12px;
+            /* width:20%; */
+            height: 50px;
+        }
+        main{
+            width: 100%;
+            margin: 0px;
+            text-align: center;
+            border: 1px black solid;
+        }
+        @media(min-width: 900px){
+            .engenharia,.farmacia,.matematica{
+                width:20%;
+                display: inline-block;
+            }
+        }
+        @media(min-width: 550px){
+            .engenharia, .farmacia, .matematica{
+                background-color:aliceblue;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <article class="engenharia"> Engenharia </article>
+        <article class="farmacia"> Farmácia </article>
+        <article class="matematica"> Matemática </article>
+    </main>
+</body>
+</html>
