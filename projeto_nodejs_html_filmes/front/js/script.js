@@ -3,6 +3,6 @@ const filmesEndpoint = "/filmes"
 
 async function obterFilmes() {
     const URLCompleta = baseURL + filmesEndpoint
-    const filmes = (await app.get(URLCompleta)).data
+    const filmes = (await axios.get(URLCompleta)).data
     console.log(filmes)
 }
