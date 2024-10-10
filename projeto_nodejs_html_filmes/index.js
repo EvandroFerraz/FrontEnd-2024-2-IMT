@@ -5,6 +5,9 @@ const app = express()
 app.use(express.json())
 app.listen(3000, () => console.log("up and running"))
 
+const cors = require ('cors')
+app.use(cors())
+
 let filmes = [
     {
         titulo: "Forrest Gump - O Contador de Histórias",
