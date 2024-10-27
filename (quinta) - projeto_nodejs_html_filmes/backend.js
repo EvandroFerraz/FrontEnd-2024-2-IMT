@@ -1,4 +1,6 @@
 // mongodb+srv://evandroferraz:1234@cluster0.vev20.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+// npm install mongoose-unique-validator --legacy-peer-deps
+// npm install bcrypt --legacy-peer-deps
 
 console.log("Hello, NodeJS")
 
@@ -8,6 +10,17 @@ app.use(express.json())
 
 const cors = require ('cors')
 app.use(cors())
+
+let filmes = [
+    {
+        titulo: "Forrest Gump - O Contador de Histórias",
+        sinopse: "Quarenta anos da história dos Estados Unidos, vistos pelos olhos de Forrest Gump (Tom Hanks), um rapaz com QI abaixo da média e boas intenções."
+    },
+    {
+        titulo: "Um Sonho de Liberdade",
+        sinopse: "Em 1946, Andy Dufresne (Tim Robbins), um jovem e bem sucedido banqueiro, tem a sua vida radicalmente modificada ao ser condenado por um crime que nunca cometeu, o homicídio de sua esposa e do amante dela"
+    }
+]
 
 // carrega as funções do pacote 'mongoose' na constante
 const mongoose = require('mongoose')
@@ -20,6 +33,14 @@ const Filme = mongoose.model("Filme", mongoose.Schema({
 async function conectarAoMongoDB(){
     await mongoose.connect("mongodb+srv://evandroferraz:1234@cluster0.vev20.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 }
+
+const uniqueValidator = require("mongoose-unique-validator")
+const usuarioSchema = mongoose.Schema({
+    login: {type: String, required: true, unique: true},
+    password: {type: String, required: true}
+})
+usuarioSchema.plugin(uniqueValidator)
+const Usuario = mongoose.model("Usuario", usuarioSchema)
 
 app.listen(3000, () => {
     try{
@@ -37,7 +58,6 @@ app.get('/hey', (req, res) => {
 
 //GET http://localhost:3000/filmes
 app.get("/filmes", async (req, res) => {
-    const filmes = await Filme.find()
     res.json(filmes)
 })
 
@@ -57,4 +77,43 @@ app.post("/filmes", async (req, res) => {
     const filmes = await Filme.find()
     //responde ao cliente. Aqui, optamos por devolver a base inteira ao cliente, embora não seja obrigatório.
     res.json(filmes)
+})
+
+//POST http://localhost:3000/signup
+app.post("/signup", async (req, res) => {
+    try{
+        const login = req.body.login
+        const password = req.body.password
+        const criptografada = await bcrypt.hash(password,10)
+        const usuario = new Usuario({
+            login: login,
+            password: criptografada
+        })
+        const respMongo = await usuario.save()
+        console.log(respMongo)
+        res.status(201).end()
+    }catch(error){
+        console.log(error)
+        res.status(409).end()
+    }
+})
+
+//POST http://localhost:3000/login
+app.post('/login', async (req, res) => {
+    //login/senha que o usuário enviou
+    const login = req.body.login
+    const password = req.body.password
+    //tentamos encontrar no MongoDB
+    const u = await Usuario.findOne({login: req.body.login})
+    if(!u){
+        //senão foi encontrado, encerra por aqui com código 401
+        return res.status(401).json({mensagem: "login inválido"})
+    }
+    //se foi encontrado, comparamos a senha, após descriptográ-la
+    const senhaValida = await bcrypt.compare(password, u.password)
+    if (!senhaValida){
+        return res.status(401).json({mensagem: "senha inválida"})
+    }
+    //deixa assim por enquanto, já já arrumamos
+    res.end()
 })
