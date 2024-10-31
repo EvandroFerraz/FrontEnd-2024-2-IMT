@@ -1,5 +1,6 @@
 const baseURL = "http://localhost:3000"
 const filmesEndpoint = "/filmes"
+const usuarioEndpoint = "/signup"
 
 async function obterFilmes() {
     const URLCompleta = baseURL + filmesEndpoint
@@ -61,3 +62,32 @@ async function cadastrarFilme(){
         }, 3000)
     }
 }
+
+async function cadastrarUsuario(){
+    let usuarioCadastroInput = 
+        document.querySelector("#usuarioCadastroInput")
+    let passwordCadastroInput =
+        document.querySelector("#passwordCadastroInput")
+
+    let usuarioCadastro = usuarioCadastroInput.value;
+    let passwordCadastro = passwordCadastroInput.value;
+
+    // Se os campos usuarioCadastro e ao mesmo tempo passwordCadastros
+    // não estiverem vazios
+    if(usuarioCadastro && passwordCadastro){
+        // Fazer a requisição POST para o Backend
+    }else{ // Pelo menos um dos dois campos esta vazio
+        let alert = document.querySelector('.alert-modal-cadastro')
+        alert.innerHTML = "Preencha todos os campos!!"
+        alert.classList.add("show","alert-danger")
+        alert.classList.remove('d-none')
+        setTimeout(() => {
+            alert.classList.remove('show')
+            alert.classList.add('d-none')
+        }, 3000)         
+    }
+
+
+}
+
+

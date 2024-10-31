@@ -1,7 +1,6 @@
 // mongodb+srv://evandroferraz:1234@cluster0.vev20.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 // npm install mongoose-unique-validator --legacy-peer-deps
 // npm install bcrypt --legacy-peer-deps
-// npm install --legacy-peer-deps
 
 console.log("Hello, NodeJS")
 
@@ -90,6 +89,7 @@ app.post("/signup", async (req, res) => {
     }
 })
 
+const jwt = require("jsonwebtoken")
 //POST http://localhost:3000/login
 app.post('/login', async (req, res) => {
     //login/senha que o usuário enviou
@@ -106,6 +106,13 @@ app.post('/login', async (req, res) => {
     if (!senhaValida){
         return res.status(401).json({mensagem: "senha inválida"})
     }
-    //deixa assim por enquanto, já já arrumamos
-    res.end()
+    // Se chegamos nessa linha, então usuário válido.
+    const token = jwt.sign(
+        {login: login},
+        "chave-secreta",
+        {expiresIn: "1h"}
+    )
+    res.status(200).json({token: token})
 })
+
+// npm install jsonwebtoken --legacy-peer-deps

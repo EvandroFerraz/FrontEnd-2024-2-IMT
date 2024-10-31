@@ -11,17 +11,6 @@ app.use(express.json())
 const cors = require ('cors')
 app.use(cors())
 
-let filmes = [
-    {
-        titulo: "Forrest Gump - O Contador de Histórias",
-        sinopse: "Quarenta anos da história dos Estados Unidos, vistos pelos olhos de Forrest Gump (Tom Hanks), um rapaz com QI abaixo da média e boas intenções."
-    },
-    {
-        titulo: "Um Sonho de Liberdade",
-        sinopse: "Em 1946, Andy Dufresne (Tim Robbins), um jovem e bem sucedido banqueiro, tem a sua vida radicalmente modificada ao ser condenado por um crime que nunca cometeu, o homicídio de sua esposa e do amante dela"
-    }
-]
-
 // carrega as funções do pacote 'mongoose' na constante
 const mongoose = require('mongoose')
 // cria um Schema para representar filmes
@@ -58,6 +47,7 @@ app.get('/hey', (req, res) => {
 
 //GET http://localhost:3000/filmes
 app.get("/filmes", async (req, res) => {
+    const filmes = await Filme.find()
     res.json(filmes)
 })
 
@@ -79,6 +69,7 @@ app.post("/filmes", async (req, res) => {
     res.json(filmes)
 })
 
+const bcrypt = require('bcrypt')
 //POST http://localhost:3000/signup
 app.post("/signup", async (req, res) => {
     try{
@@ -98,6 +89,7 @@ app.post("/signup", async (req, res) => {
     }
 })
 
+const jwt = require("jsonwebtoken")
 //POST http://localhost:3000/login
 app.post('/login', async (req, res) => {
     //login/senha que o usuário enviou
@@ -114,6 +106,13 @@ app.post('/login', async (req, res) => {
     if (!senhaValida){
         return res.status(401).json({mensagem: "senha inválida"})
     }
-    //deixa assim por enquanto, já já arrumamos
-    res.end()
+    // Se chegamos nessa linha, então usuário válido.
+    const token = jwt.sign(
+        {login: login},
+        "chave-secreta",
+        {expiresIn: "1h"}
+    )
+    res.status(200).json({token: token})
 })
+
+// npm install jsonwebtoken --legacy-peer-deps
