@@ -1,6 +1,7 @@
 // mongodb+srv://evandroferraz:1234@cluster0.vev20.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 // npm install mongoose-unique-validator --legacy-peer-deps
 // npm install bcrypt --legacy-peer-deps
+// npm install --legacy-peer-deps
 
 console.log("Hello, NodeJS")
 
@@ -10,17 +11,6 @@ app.use(express.json())
 
 const cors = require ('cors')
 app.use(cors())
-
-let filmes = [
-    {
-        titulo: "Forrest Gump - O Contador de Histórias",
-        sinopse: "Quarenta anos da história dos Estados Unidos, vistos pelos olhos de Forrest Gump (Tom Hanks), um rapaz com QI abaixo da média e boas intenções."
-    },
-    {
-        titulo: "Um Sonho de Liberdade",
-        sinopse: "Em 1946, Andy Dufresne (Tim Robbins), um jovem e bem sucedido banqueiro, tem a sua vida radicalmente modificada ao ser condenado por um crime que nunca cometeu, o homicídio de sua esposa e do amante dela"
-    }
-]
 
 // carrega as funções do pacote 'mongoose' na constante
 const mongoose = require('mongoose')
@@ -58,6 +48,7 @@ app.get('/hey', (req, res) => {
 
 //GET http://localhost:3000/filmes
 app.get("/filmes", async (req, res) => {
+    const filmes = await Filme.find()
     res.json(filmes)
 })
 
@@ -79,6 +70,7 @@ app.post("/filmes", async (req, res) => {
     res.json(filmes)
 })
 
+const bcrypt = require('bcrypt')
 //POST http://localhost:3000/signup
 app.post("/signup", async (req, res) => {
     try{
