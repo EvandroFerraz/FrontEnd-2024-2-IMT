@@ -2,6 +2,10 @@
 // npm install mongoose-unique-validator --legacy-peer-deps
 // npm install bcrypt --legacy-peer-deps
 
+// npm install --legacy-peer-deps
+// npm install jsonwebtoken --legacy-peer-deps
+// npm start
+
 console.log("Hello, NodeJS")
 
 const express = require ('express')

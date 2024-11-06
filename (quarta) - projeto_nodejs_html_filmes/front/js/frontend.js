@@ -18,6 +18,21 @@ async function obterFilmes() {
     }
 }
 
+// Otimizando o código melhorando sua Reusabilidade
+function exibirAlerta(seletor, innerHTML, classesToAdd, classesToRemove){
+    let alert = document.querySelector(seletor)
+    alert.innerHTML = innerHTML
+    // ... é o spread operator
+    // quando aplicado a um array, ele vai "desmembrar" o array
+    // depois disso, passamos os elementos do array como argumentos para add e remove
+    alert.classList.add(...classesToAdd)
+    alert.classList.remove(...classesToRemove)
+    setTimeout(() => {
+        alert.classList.remove("show")
+        alert.classList.add("d-none")
+    }, 3000)
+}
+
 async function cadastrarFilme(){
     // definindo o endereço completo
     const URLCompleta = baseURL + filmesEndpoint
@@ -52,14 +67,11 @@ async function cadastrarFilme(){
             celulaTitulo.innerHTML = filme.titulo
             celulaSinopse.innerHTML = filme.sinopse
         }
+        exibirAlerta('.alert-filme', 'Filme cadastrado com sucesso', 
+        ['show','alert-success'],['d-none','alert-danger'])
     }else{ //pelo menos um dos dois campos esta vazio
-        let alert = document.querySelector('.alert')
-        alert.classList.add('show')
-        alert.classList.remove('d-none')
-        setTimeout(() => {
-            alert.classList.remove('show')
-            alert.classList.add('d-none')
-        }, 3000)
+        exibirAlerta('.alert-filme', 'Preencha todos os campos', 
+        ['show','alert-danger'], ['d-none','alert-success'])
     }
 }
 
@@ -74,20 +86,45 @@ async function cadastrarUsuario(){
 
     // Se os campos usuarioCadastro e ao mesmo tempo passwordCadastros
     // não estiverem vazios
-    if(usuarioCadastro && passwordCadastro){
-        // Fazer a requisição POST para o Backend
+    if(usuarioCadastro && passwordCadastro){ 
+        try{
+            const URLCompleta = baseURL + usuarioEndpoint;
+            // Fazer a requisição POST para o Backend
+            await axios.post(URLCompleta, 
+                {login: usuarioCadastro, password: passwordCadastro})
+            // Limpando os campos de texto
+            usuarioCadastroInput.value = ""
+            passwordCadastroInput.value = ""
+            // Mostrar a mensagem de confirmação
+            exibirAlerta(".alert-modal-cadastro", "Usuário cadastrado com sucesso!",
+            ['show','alert-success'], ['d-none','alert-danger'])
+        }catch(error){
+            // Mostra a mensagem de erro
+            exibirAlerta('.alert-modal-cadastro', 'Erro ao cadastrar o usuário',
+            ['show','alert-danger'],['d-none','alert-success'])
+        }
     }else{ // Pelo menos um dos dois campos esta vazio
-        let alert = document.querySelector('.alert-modal-cadastro')
-        alert.innerHTML = "Preencha todos os campos!!"
-        alert.classList.add("show","alert-danger")
-        alert.classList.remove('d-none')
-        setTimeout(() => {
-            alert.classList.remove('show')
-            alert.classList.add('d-none')
-        }, 3000)         
+        exibirAlerta('.alert-modal-cadastro', 'Preencha todos os campos', 
+        ['show','alert-danger'],['d-none','alert-success'])       
     }
+}
 
+const fazerLogin = async () => {
+    let usuarioLoginInput = document.querySelector("#usuarioLoginInput")
+    let passwordLoginInput = document.querySelector("#passwordLoginInput")
 
+    let usuarioLogin = usuarioLoginInput.value
+    let passwordLogin = passwordLoginInput.value
+
+    // Se as variáveis usuarioLogin e passwordLogin não estiverem vazias
+    if(usuarioLogin && passwordLogin){
+        // A gente vai enviar uma requisição do tipo POST do FrontEnd para o BackEnd
+        // para o endpoint '/login' validando se o usuário em questão existe na 
+        // base de dados
+    }else{ // Se pelo menos uma das variáveis está vazia
+        exibirAlerta('.alert-modal-login', 'Preencha todos os campos',
+        ['show','alert-danger'], ['d-none','alert-success'])
+    }
 }
 
 
