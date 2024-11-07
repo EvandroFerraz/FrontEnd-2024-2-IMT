@@ -1,6 +1,7 @@
 // mongodb+srv://evandroferraz:1234@cluster0.vev20.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-// npm install mongoose-unique-validator --legacy-peer-deps
-// npm install bcrypt --legacy-peer-deps
+// npm install --legacy-peer-deps
+// npm start
+
 
 console.log("Hello, NodeJS")
 

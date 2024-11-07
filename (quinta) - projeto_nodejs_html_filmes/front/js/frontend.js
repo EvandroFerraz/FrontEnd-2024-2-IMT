@@ -18,6 +18,22 @@ async function obterFilmes() {
     }
 }
 
+function exibirAlerta(seletor, innerHTML, classesToAdd, classesToRemove){
+    let alert = document.querySelector(seletor)
+    alert.innerHTML = innerHTML
+
+    // ... = operação de "desmembramento"
+    // dividimos os elementos e passamos todos estes elementos de forma individual
+    // como parametros para a função add()
+    alert.classList.add(...classesToAdd)
+    alert.classList.remove(...classesToRemove)
+
+    setTimeout(() => {
+        alert.classList.remove('show')
+        alert.classList.add('d-none')
+    }, 3000)
+}
+
 async function cadastrarFilme(){
     // definindo o endereço completo
     const URLCompleta = baseURL + filmesEndpoint
@@ -52,14 +68,11 @@ async function cadastrarFilme(){
             celulaTitulo.innerHTML = filme.titulo
             celulaSinopse.innerHTML = filme.sinopse
         }
+        exibirAlerta('.alert-filme', "Filme cadastrado com sucesso!!",
+        ["show","alert-success"], ["d-none", "alert-danger"])
     }else{ //pelo menos um dos dois campos esta vazio
-        let alert = document.querySelector('.alert')
-        alert.classList.add('show')
-        alert.classList.remove('d-none')
-        setTimeout(() => {
-            alert.classList.remove('show')
-            alert.classList.add('d-none')
-        }, 3000)
+        exibirAlerta('.alert-filme', "Preencha todos os campos!!", 
+        ["show","alert-danger"], ["d-none", "alert-success"])
     }
 }
 
@@ -72,22 +85,48 @@ async function cadastrarUsuario(){
     let usuarioCadastro = usuarioCadastroInput.value;
     let passwordCadastro = passwordCadastroInput.value;
 
-    // Se os campos usuarioCadastro e ao mesmo tempo passwordCadastros
+    // Se os campos usuarioCadastro e ao mesmo tempo passwordCadastro
     // não estiverem vazios
-    if(usuarioCadastro && passwordCadastro){
-        // Fazer a requisição POST para o Backend
+    if(usuarioCadastro && passwordCadastro){  
+        try{
+            // Fazer a requisição POST para o Backend
+            // http://localhost:3000/signup
+            const URLCompleta = baseURL + usuarioEndpoint;
+
+            await axios.post(URLCompleta, 
+                {login: usuarioCadastro, password: passwordCadastro})
+            
+           usuarioCadastroInput.value = ""
+           passwordCadastroInput.value = "" 
+
+           exibirAlerta('.alert-modal-cadastro', "Usuário Cadastrado com Sucesso!", 
+           ['show', 'alert-success'], ['d-none','alert-danger'])
+
+        }catch(error){
+            // Um alerta informando o usuário sobre o erro que aconteceu
+            exibirAlerta('.alert-modal-cadastro', "Erro ao Cadastrar Usuário!!",
+            ['show','alert-danger'], ['d-none','alert-success'])
+        }
     }else{ // Pelo menos um dos dois campos esta vazio
-        let alert = document.querySelector('.alert-modal-cadastro')
-        alert.innerHTML = "Preencha todos os campos!!"
-        alert.classList.add("show","alert-danger")
-        alert.classList.remove('d-none')
-        setTimeout(() => {
-            alert.classList.remove('show')
-            alert.classList.add('d-none')
-        }, 3000)         
+        exibirAlerta('.alert-modal-cadastro', "Preencha todos os campos!!",
+        ['show','alert-danger'],['d-none','alert-success'])       
     }
+}
 
+const fazerLogin = async () => {
+    let usuarioLoginInput = document.querySelector('#usuarioLoginInput')
+    let passwordLoginInput = document.querySelector('#passwordLoginInput')
+    let usuarioLogin = usuarioLoginInput.value
+    let passwordLogin = passwordLoginInput.value
 
+    if(usuarioLogin && passwordLogin){
+        // Fazer uma requisição do tipo POST do Front para o BackEnd
+        // para o endpoint /login, validando se a combinação de usuário e senha
+        // está cadastrada no banco de dados
+    }else{ // Pelo menos um dos dois campos de texto esta vazio
+        exibirAlerta(".alert-modal-login", "Preencha todos os campos!!",
+        ["show","alert-danger"],["d-none","alert-success"])
+    }
 }
 
 
