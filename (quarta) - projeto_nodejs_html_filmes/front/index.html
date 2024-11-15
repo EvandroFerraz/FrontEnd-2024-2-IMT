@@ -111,7 +111,7 @@ ss/bootstrap.css" rel="stylesheet">
 
                     <div class="collapse navbar-collapse" id="myNav">
                         <div class="navbar-nav ms-auto">
-                            <a class="nav-link active me-2"
+                            <a id="loginLink" class="nav-link active me-2"
                                 aria-current="page" href="#"
                                 data-bs-toggle="modal"
                                 data-bs-target="#modalLogin">
@@ -124,7 +124,6 @@ ss/bootstrap.css" rel="stylesheet">
                             </a>
                         </div>
                     </div>
-
                 </nav>
             </div>
         </div>
@@ -163,7 +162,7 @@ crossorigin="anonymous"></script>
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <button class="btn btn-outline-primary w-100"
+                <button id="cadastrarFilmeButton" class="btn btn-outline-primary w-100"
                 onclick="cadastrarFilme()" disabled>Cadastrar</button>
             </div>
         </div>

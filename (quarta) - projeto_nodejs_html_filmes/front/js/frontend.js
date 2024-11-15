@@ -121,9 +121,23 @@ const fazerLogin = async () => {
         // A gente vai enviar uma requisição do tipo POST do FrontEnd para o BackEnd
         // para o endpoint '/login' validando se o usuário em questão existe na 
         // base de dados
+        try{
+            const loginEndpoint = '/login'
+            const URLCompleta = baseURL + loginEndpoint
+            //já já vamos fazer algo com a resposta (pegar o token)
+            const response = await axios.post(URLCompleta,{login: usuarioLogin,password: passwordLogin })
+            usuarioLoginInput.value = ""
+            passwordLoginInput.value = ""
+            exibirAlerta('.alert-modal-login', "Login efetuado com sucesso!",
+            ['show', 'alert-success'], ['d-none', 'alert-danger'], 2000)
+            ocultarModal('#modalLogin', 2000)
+            const cadastrarFilmeButton = document.querySelector('#cadastrarFilmeButton')
+            cadastrarFilmeButton.disabled = false
+        }catch(error){
+            exibirAlerta('.alert-modal-login', 'Erro ao efetuar Login', ['show','alert-danger'], ['d-none','alert-success'])
+        }
     }else{ // Se pelo menos uma das variáveis está vazia
-        exibirAlerta('.alert-modal-login', 'Preencha todos os campos',
-        ['show','alert-danger'], ['d-none','alert-success'])
+        exibirAlerta('.alert-modal-login', 'Preencha todos os campos',['show','alert-danger'], ['d-none','alert-success'])
     }
 }
 
